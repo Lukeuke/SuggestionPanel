@@ -1,0 +1,69 @@
+﻿@model SuggestionPanel.Domain.Models.Suggestion
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Suggestion</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="Problem" class="control-label"></label>
+                <input asp-for="Problem" class="form-control" />
+                <span asp-validation-for="Problem" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Solution" class="control-label"></label>
+                <input asp-for="Solution" class="form-control" />
+                <span asp-validation-for="Solution" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StationNumber" class="control-label"></label>
+                <input asp-for="StationNumber" class="form-control" />
+                <span asp-validation-for="StationNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DateOfSubmission" class="control-label"></label>
+                <input asp-for="DateOfSubmission" class="form-control" />
+                <span asp-validation-for="DateOfSubmission" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsCardAnomaly" /> @Html.DisplayNameFor(model => model.IsCardAnomaly)
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="SubmissionOwnerId" class="control-label"></label>
+                <select asp-for="SubmissionOwnerId" class="form-control" asp-items="ViewBag.SubmissionOwnerId"></select>
+                <span asp-validation-for="SubmissionOwnerId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SignedToId" class="control-label"></label>
+                <select asp-for="SignedToId" class="form-control" asp-items="ViewBag.SignedToId"></select>
+                <span asp-validation-for="SignedToId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CostId" class="control-label"></label>
+                <select asp-for="CostId" class="form-control" asp-items="ViewBag.CostId"></select>
+                <span asp-validation-for="CostId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

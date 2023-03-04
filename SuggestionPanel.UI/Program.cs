@@ -1,4 +1,13 @@
+using Microsoft.EntityFrameworkCore;
+using SuggestionPanel.Application;
+using SuggestionPanel.UI.Data;
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddDbContext<ApplicationContext>(o =>
+{
+    o.UseSqlServer(@"Server=DESKTOP-Q6H2L21\SQLEXPRESS;Database=Data-S;Trusted_Connection=True;TrustServerCertificate=True;");
+});
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();

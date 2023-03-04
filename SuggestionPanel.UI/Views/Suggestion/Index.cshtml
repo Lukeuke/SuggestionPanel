@@ -1,0 +1,77 @@
+﻿@model IEnumerable<SuggestionPanel.Domain.Models.Suggestion>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Problem)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Solution)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StationNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateOfSubmission)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsCardAnomaly)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SubmissionOwner)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SignedTo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cost)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Problem)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Solution)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StationNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateOfSubmission)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsCardAnomaly)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SubmissionOwner.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SignedTo.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cost.Value)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
