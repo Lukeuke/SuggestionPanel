@@ -5,6 +5,8 @@ using SuggestionPanel.Application.Services.Authentication;
 using SuggestionPanel.Domain.Enums;
 using System.Security.Claims;
 using SuggestionPanel.Domain.DTOs;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Extensions.Configuration;
 
 namespace SuggestionPanel.UI.Controllers
 {
@@ -28,8 +30,6 @@ namespace SuggestionPanel.UI.Controllers
         [Route("Login")]
         public ActionResult Login()
         {
-            //ViewData["Roles"] = new SelectList(new List<string> { ERoles.Admin.ToString(), ERoles.User.ToString()});
-
             return View();
         }
 
@@ -74,6 +74,8 @@ namespace SuggestionPanel.UI.Controllers
         [Route("Admin")]
         public ActionResult Admin()
         {
+            ViewData["Roles"] = new SelectList(new List<string> { ERoles.Admin.ToString(), ERoles.Committee.ToString() });
+
             return View();
         }
 
@@ -81,19 +83,19 @@ namespace SuggestionPanel.UI.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
 
-        public async Task<ActionResult> Admin(string password)
+        public async Task<ActionResult> Admin(AdminRequest request)
         {
-            var validPass = _config.GetValue<string>("AdminPass");
+            var validPass = _config.GetValue<string>(request.Role + "Pass");
 
-            if (validPass != password)
+            if (validPass != request.Password)
             {
                 return View();
             }
 
             var claims = new List<Claim>
             {
-                new (ClaimTypes.Name, "Admin"),
-                new (ClaimTypes.Role, ERoles.Admin.ToString()),
+                new (ClaimTypes.Name, request.Role),
+                new (ClaimTypes.Role, request.Role),
             };
 
             var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);

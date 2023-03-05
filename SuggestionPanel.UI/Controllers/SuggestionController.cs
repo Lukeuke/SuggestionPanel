@@ -49,6 +49,14 @@ namespace SuggestionPanel.UI.Controllers
             return View(await applicationContext.ToListAsync());
         }
 
+        [Route("Accepted")]
+        [Authorize(Roles = "Admin,Committee")]
+        public async Task<IActionResult> Accepted()
+        {
+            var suggestions = _context.Suggestions.Include(s => s.Cost).Include(s => s.SignedTo).Include(s => s.SubmissionOwner).Where(x => x.ReviewDate != null);
+            return View(await suggestions.ToListAsync());
+        }
+
         // GET: Suggestion/Details/5
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Details(int? id)
@@ -104,10 +112,10 @@ namespace SuggestionPanel.UI.Controllers
                     Delete = false
                 });
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "Home");
             }
             ViewData["CostId"] = new SelectList(_context.Costs, "Id", "Value", suggestion.CostId);
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Index", "Home");
         }
 
         // GET: Suggestion/Edit/5
@@ -178,7 +186,7 @@ namespace SuggestionPanel.UI.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index), new { Number = HttpContext.User.Identity.Name });
             }
             return RedirectToAction(nameof(Index), new { Number = HttpContext.User.Identity.Name });
         }

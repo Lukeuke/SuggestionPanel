@@ -1,0 +1,82 @@
+﻿@model SuggestionPanel.Domain.DTOs.SuggestionCommitteeReviewRequest
+
+@{
+    ViewData["Title"] = "Review";
+}
+
+<h1>Review</h1>
+
+<h4>Suggestion</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <input asp-for="Id" class="form-control" hidden readonly />
+            </div>
+            <div class="form-group">
+                <label asp-for="Problem" class="control-label"></label>
+                <input asp-for="Problem" class="form-control" readonly />
+                <span asp-validation-for="Problem" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Solution" class="control-label"></label>
+                <input asp-for="Solution" class="form-control" readonly />
+                <span asp-validation-for="Solution" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StationNumber" class="control-label"></label>
+                <input asp-for="StationNumber" class="form-control" readonly />
+                <span asp-validation-for="StationNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DateOfSubmission" class="control-label"></label>
+                <input asp-for="DateOfSubmission" class="form-control" readonly />
+                <span asp-validation-for="DateOfSubmission" class="text-danger"></span>
+            </div>
+                <input class="form-check-input" asp-for="IsCardAnomaly" readonly hidden />
+            <div class="form-group">
+                <label asp-for="ImplementationDesc" class="control-label"></label>
+                <input asp-for="ImplementationDesc" class="form-control" readonly />
+                <span asp-validation-for="ImplementationDesc" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PropositionDate" class="control-label"></label>
+                <input asp-for="PropositionDate" class="form-control" readonly  />
+                <span asp-validation-for="PropositionDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ImplementationDate" class="control-label"></label>
+                <input asp-for="ImplementationDate" class="form-control" readonly />
+                <span asp-validation-for="ImplementationDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Delete" class="control-label"></label>
+                <input asp-for="Delete" class="form-control" readonly />
+                <span asp-validation-for="Delete" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Points" class="control-label"></label>
+                <select asp-for="Points" class="form-control" asp-items="ViewBag.Points"></select>
+                <span asp-validation-for="Points" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Money" class="control-label"></label>
+                <input asp-for="Money" class="form-control" placeholder="ex.: '500' " />
+                <span asp-validation-for="Money" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -23,14 +23,35 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Auth" asp-action="Admin">Admin</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Auth" asp-action="Admin">Stuff</a>
                         </li>
-                    @if(Context.User.Identity.IsAuthenticated)
-                    {
+                        @if (Context.User.IsInRole("Committee"))
+                        {
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Suggestion" asp-action="Index" asp-route-number="@Context.User.Identity.Name">Suggestions for a review</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Committee" asp-action="Index">Suggestions to Review</a>
                         </li>
-                    }
+                        <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Suggestion" asp-action="Accepted">Accepted Suggestions</a>
+                        </li>
+                        }
+
+                        @if (Context.User.IsInRole("User") || Context.User.IsInRole("Admin"))
+                        {
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Suggestion" asp-action="Index" asp-route-number="@Context.User.Identity.Name">Suggestions to Review</a>
+                        </li>
+                        }
+
+                        @if (Context.User.IsInRole("Admin"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="HumanResources" asp-action="Index">Human Resources</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Responsibility" asp-action="Index">Responsibilities</a>
+                            </li>
+                        }
                     </ul>
                 </div>
                 @if(Context.User.Identity.IsAuthenticated)

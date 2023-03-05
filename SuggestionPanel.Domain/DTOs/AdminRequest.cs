@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using SuggestionPanel.Domain.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace SuggestionPanel.Domain.DTOs
 {
@@ -7,5 +8,6 @@ namespace SuggestionPanel.Domain.DTOs
         [Required]
         [DataType(DataType.Password)]
         public required string Password { get; set; }
+        public required string Role { get; set; }
     }
 }

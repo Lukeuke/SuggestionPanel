@@ -1,0 +1,109 @@
+﻿@model IEnumerable<SuggestionPanel.Domain.Models.Suggestion>
+
+@{
+    ViewData["Title"] = "Suggestions";
+}
+
+<h1>Suggestions</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Problem)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Solution)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StationNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateOfSubmission)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsCardAnomaly)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SubmissionOwner.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SubmissionOwner.Surname)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SignedTo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cost)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Delete)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ImplementationDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ImplementationDesc)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PropositionDate)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Problem)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Solution)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StationNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateOfSubmission)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsCardAnomaly)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SubmissionOwner.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SubmissionOwner.Surname)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SignedTo.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cost.Value)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Delete!.Value)
+                </td>
+                <td>
+                    @if (item.PropositionDate != null)
+                    {
+                        @Html.DisplayFor(modelItem => item.PropositionDate!.Value)
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ImplementationDesc)
+                </td>
+                <td>
+                    @if(item.PropositionDate != null)
+                    {
+                        @Html.DisplayFor(modelItem => item.PropositionDate!.Value)
+                    }
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Review</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

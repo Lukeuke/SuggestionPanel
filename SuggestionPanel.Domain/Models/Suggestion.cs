@@ -19,11 +19,23 @@ namespace SuggestionPanel.Domain.Models
         public DateTime? ImplementationDate { get; set; }
         public bool? Delete { get; set; }
 
+        public int? Points { get; set; }
+        public decimal? Money { get; set; }
+        public DateTime? ReviewDate { get; set; }
+
         public virtual HumanResources SubmissionOwner { get; set; }
         public int SubmissionOwnerId { get; set; }
         public virtual ValueStreamResponsibility SignedTo { get; set; }
         public int SignedToId { get; set; }
         public virtual Cost Cost { get; set; }
         public int CostId { get; set; }
+
+        public bool ToCommittee()
+        {
+            if (Delete == true && ImplementationDate != null)
+                return true;
+            
+            return false;
+        }
     }
 }
