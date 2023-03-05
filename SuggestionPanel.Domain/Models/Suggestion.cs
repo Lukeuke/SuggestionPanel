@@ -7,7 +7,7 @@ namespace SuggestionPanel.Domain.Models
         [Key]
         public int Id { get; set; }
         public required string Problem { get; set; }
-        public required string Solution { get; set; }
+        public string? Solution { get; set; }
 
         [MaxLength(100)]
         public required string StationNumber { get; set; }

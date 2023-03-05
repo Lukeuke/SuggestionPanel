@@ -12,8 +12,8 @@ using SuggestionPanel.Application.Data;
 namespace SuggestionPanel.UI.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20230304205646_Initial")]
-    partial class Initial
+    [Migration("20230305003352_Email_On_Res")]
+    partial class Email_On_Res
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -93,7 +93,6 @@ namespace SuggestionPanel.UI.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Solution")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("StationNumber")
@@ -143,6 +142,10 @@ namespace SuggestionPanel.UI.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()

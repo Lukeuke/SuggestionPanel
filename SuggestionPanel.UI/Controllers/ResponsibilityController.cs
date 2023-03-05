@@ -1,13 +1,16 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using SuggestionPanel.Application.Data;
 using SuggestionPanel.Domain.DTOs;
 using SuggestionPanel.Domain.Models;
-using SuggestionPanel.UI.Data;
+using SuggestionPanel.Application.Services.Authentication;
+using Microsoft.AspNetCore.Authorization;
 
 namespace SuggestionPanel.UI.Controllers
 {
     [Route("[controller]")]
+    [Authorize(Roles = "Admin")]
     public class ResponsibilityController : Controller
     {
         private readonly ApplicationContext _context;
@@ -57,18 +60,23 @@ namespace SuggestionPanel.UI.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost("Create")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Surname,PasswordHash,Salt,ValueStreamId")] ValueStreamResponsibilityRequest request)
+        public async Task<IActionResult> Create(ValueStreamResponsibilityRequest request)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(new ValueStreamResponsibility
+                var vsr = new ValueStreamResponsibility
                 {
                     Name = request.Name,
                     Surname = request.Surname,
                     PasswordHash = request.PasswordHash,
-                    Salt = string.Empty,
-                    ValueStreamId = request.ValueStreamId
-                });
+                    ValueStreamId = request.ValueStreamId,
+                    Number = request.Number,
+                    Email = request.EmailAddr
+                };
+
+                vsr.ProvideSaltAndHash();
+
+                _context.Add(vsr);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }

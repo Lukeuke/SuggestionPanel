@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using SuggestionPanel.Application.Data;
 using SuggestionPanel.Domain.Models;
-using SuggestionPanel.UI.Data;
 
 namespace SuggestionPanel.UI.Controllers
 {
     [Route("[controller]")]
+    [Authorize(Roles = "Admin")]
     public class HumanResourcesController : Controller
     {
         private readonly ApplicationContext _context;

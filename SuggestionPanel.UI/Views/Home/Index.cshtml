@@ -4,6 +4,26 @@
 
 <div class="text-center d-flex w-100 justify-content-center align-items-center">
     <div class="w-25 h-auto">
-        <a class="btn-primary" href="Suggestion/Create">Stwórz sugestie</a>
+        <a href="Suggestion/Create">
+            <button class="btn-primary">Stwórz sugestie</button>
+        </a>
     </div>
+    @if(Context.User.Identity.IsAuthenticated)
+    {
+        <div class="w-25 h-auto">
+            <a href="Auth/Logout">
+                <form asp-action="Logout" asp-controller="Auth">
+                    <input type="submit" value="Logout" class="btn-primary">
+                </form>
+            </a>
+        </div>
+    }
+    else
+    {
+        <div class="w-25 h-auto">
+            <a href="Auth/Login">
+                <button class="btn-primary">Login</button>
+            </a>
+        </div>
+    }
 </div>

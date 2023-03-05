@@ -1,9 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using SuggestionPanel.Application.Data;
 using SuggestionPanel.Domain.DTOs;
 using SuggestionPanel.Domain.Models;
-using SuggestionPanel.UI.Data;
 
 namespace SuggestionPanel.UI.Controllers
 {
@@ -17,13 +18,30 @@ namespace SuggestionPanel.UI.Controllers
         }
 
         // GET: Suggestion
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string? number)
         {
-            var applicationContext = _context.Suggestions.Include(s => s.Cost).Include(s => s.SignedTo).Include(s => s.SubmissionOwner);
+            var isAdmin = HttpContext.User.IsInRole("Admin");
+
+            if (number is null && !isAdmin)
+            {
+                return Unauthorized();
+            }
+
+            if(number != HttpContext.User.Identity.Name)
+                return Unauthorized();
+
+            if (isAdmin)
+            {
+                var suggestions = _context.Suggestions.Include(s => s.Cost).Include(s => s.SignedTo).Include(s => s.SubmissionOwner);
+                return View(await suggestions.ToListAsync());
+            }
+
+            var applicationContext = _context.Suggestions.Include(s => s.Cost).Include(s => s.SignedTo).Include(s => s.SubmissionOwner).Where(x => x.SignedTo.Number == number);
             return View(await applicationContext.ToListAsync());
         }
 
         // GET: Suggestion/Details/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.Suggestions == null)
@@ -79,10 +97,11 @@ namespace SuggestionPanel.UI.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["CostId"] = new SelectList(_context.Costs, "Id", "Value", suggestion.CostId);
-            return View(suggestion);
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Suggestion/Edit/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Suggestions == null)
@@ -140,6 +159,7 @@ namespace SuggestionPanel.UI.Controllers
         }
 
         // GET: Suggestion/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Suggestions == null)

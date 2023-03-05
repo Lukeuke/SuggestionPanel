@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using SuggestionPanel.Application;
-using SuggestionPanel.UI.Data;
+using SuggestionPanel.Application.Services.Authentication;
+using SuggestionPanel.Application.Data;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +13,18 @@ builder.Services.AddDbContext<ApplicationContext>(o =>
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddScoped<IAuthService, AuthService>();
+
+builder.Services.AddAuthentication(o =>
+{
+    o.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+    o.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+})
+.AddCookie(o =>
+{
+    o.LoginPath = "/auth/login";
+    o.ExpireTimeSpan = TimeSpan.FromMinutes(30);
+});
 
 var app = builder.Build();
 

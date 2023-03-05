@@ -12,8 +12,8 @@ using SuggestionPanel.Application.Data;
 namespace SuggestionPanel.UI.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20230304205646_Initial")]
-    partial class Initial
+    [Migration("20230305000807_NullableSolution")]
+    partial class NullableSolution
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -93,7 +93,6 @@ namespace SuggestionPanel.UI.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Solution")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("StationNumber")

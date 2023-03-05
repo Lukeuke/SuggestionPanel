@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using SuggestionPanel.UI.Data;
+using SuggestionPanel.Application.Data;
 
 #nullable disable
 
@@ -90,7 +90,6 @@ namespace SuggestionPanel.UI.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Solution")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("StationNumber")
@@ -140,6 +139,10 @@ namespace SuggestionPanel.UI.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()

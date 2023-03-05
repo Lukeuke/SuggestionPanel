@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SuggestionPanel.Domain.Models;
 
-namespace SuggestionPanel.UI.Data
+namespace SuggestionPanel.Application.Data
 {
     public class ApplicationContext : DbContext
     {
