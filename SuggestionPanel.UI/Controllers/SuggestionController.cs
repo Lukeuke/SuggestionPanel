@@ -36,7 +36,16 @@ namespace SuggestionPanel.UI.Controllers
                 return View(await suggestions.ToListAsync());
             }
 
-            var applicationContext = _context.Suggestions.Include(s => s.Cost).Include(s => s.SignedTo).Include(s => s.SubmissionOwner).Where(x => x.SignedTo.Number == number);
+            var applicationContext = _context.Suggestions
+                .Include(s => s.Cost)
+                .Include(s => s.SignedTo)
+                .Include(s => s.SubmissionOwner)
+                .Where(x => x.SignedTo.Number == number);
+
+            applicationContext = applicationContext.Where(x => x.Delete == false);
+
+            applicationContext = applicationContext.Where(x => x.ImplementationDate == null);
+
             return View(await applicationContext.ToListAsync());
         }
 
@@ -91,7 +100,8 @@ namespace SuggestionPanel.UI.Controllers
                     Problem = suggestion.Problem,
                     Solution = suggestion.Solution,
                     IsCardAnomaly = suggestion.IsCardAnomaly,
-                    SubmissionOwnerId = 1
+                    SubmissionOwnerId = 1,
+                    Delete = false
                 });
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -101,7 +111,7 @@ namespace SuggestionPanel.UI.Controllers
         }
 
         // GET: Suggestion/Edit/5
-        [Authorize(Roles = "Admin")]
+        [Authorize]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Suggestions == null)
@@ -110,14 +120,24 @@ namespace SuggestionPanel.UI.Controllers
             }
 
             var suggestion = await _context.Suggestions.FindAsync(id);
+
+
             if (suggestion == null)
             {
                 return NotFound();
             }
-            ViewData["CostId"] = new SelectList(_context.Costs, "Id", "Value", suggestion.CostId);
-            ViewData["SignedToId"] = new SelectList(_context.ValueStreamResponsibilities, "Id", "Name", suggestion.SignedToId);
-            ViewData["SubmissionOwnerId"] = new SelectList(_context.HumanResources, "Id", "Name", suggestion.SubmissionOwnerId);
-            return View(suggestion);
+
+            var suggestionReuqest = new SuggestionReviewRequest
+            {
+                Id = suggestion.Id,
+                StationNumber = suggestion.StationNumber,
+                IsCardAnomaly = suggestion.IsCardAnomaly,
+                DateOfSubmission = suggestion.DateOfSubmission,
+                Problem = suggestion.Problem,
+                Solution = suggestion.Solution
+            };
+
+            return View(suggestionReuqest);
         }
 
         // POST: Suggestion/Edit/5
@@ -125,7 +145,7 @@ namespace SuggestionPanel.UI.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Problem,Solution,StationNumber,DateOfSubmission,IsCardAnomaly,SubmissionOwnerId,SignedToId,CostId")] Suggestion suggestion)
+        public async Task<IActionResult> Edit(int id, SuggestionReviewRequest suggestion)
         {
             if (id != suggestion.Id)
             {
@@ -136,7 +156,15 @@ namespace SuggestionPanel.UI.Controllers
             {
                 try
                 {
-                    _context.Update(suggestion);
+                    var suggestionModel = await _context.Suggestions.FirstOrDefaultAsync(x => x.Id == suggestion.Id);
+
+                    suggestionModel!.IsCardAnomaly = suggestion.IsCardAnomaly;
+                    suggestionModel.ImplementationDesc = suggestion.ImplementationDesc;
+                    suggestionModel.PropositionDate = suggestion.PropositionDate;
+                    suggestionModel.ImplementationDate = suggestion.ImplementationDate;
+                    suggestionModel.Delete = suggestion.Delete;
+
+                    _context.Update(suggestionModel);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -152,10 +180,7 @@ namespace SuggestionPanel.UI.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CostId"] = new SelectList(_context.Costs, "Id", "Value", suggestion.CostId);
-            ViewData["SignedToId"] = new SelectList(_context.ValueStreamResponsibilities, "Id", "Name", suggestion.SignedToId);
-            ViewData["SubmissionOwnerId"] = new SelectList(_context.HumanResources, "Id", "Name", suggestion.SubmissionOwnerId);
-            return View(suggestion);
+            return RedirectToAction(nameof(Index), new { Number = HttpContext.User.Identity.Name });
         }
 
         // GET: Suggestion/Delete/5

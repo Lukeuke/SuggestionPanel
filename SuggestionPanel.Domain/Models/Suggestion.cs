@@ -14,6 +14,11 @@ namespace SuggestionPanel.Domain.Models
         public required DateTime DateOfSubmission { get; set; }
         public required bool IsCardAnomaly { get; set; }
 
+        public string? ImplementationDesc { get; set; }
+        public DateTime? PropositionDate { get; set; }
+        public DateTime? ImplementationDate { get; set; }
+        public bool? Delete { get; set; }
+
         public virtual HumanResources SubmissionOwner { get; set; }
         public int SubmissionOwnerId { get; set; }
         public virtual ValueStreamResponsibility SignedTo { get; set; }

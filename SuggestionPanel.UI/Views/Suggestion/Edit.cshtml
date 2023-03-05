@@ -1,67 +1,70 @@
-﻿@model SuggestionPanel.Domain.Models.Suggestion
+﻿@model SuggestionPanel.Domain.DTOs.SuggestionReviewRequest
 
 @{
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit</h1>
+<h1>Suggestion</h1>
 
-<h4>Suggestion</h4>
+<h4>Review</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <input asp-for="Id" class="form-control" readonly hidden />
+            </div>
             <div class="form-group">
                 <label asp-for="Problem" class="control-label"></label>
-                <input asp-for="Problem" class="form-control" />
+                <input asp-for="Problem" class="form-control" readonly />
                 <span asp-validation-for="Problem" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Solution" class="control-label"></label>
-                <input asp-for="Solution" class="form-control" />
+                <input asp-for="Solution" class="form-control" readonly />
                 <span asp-validation-for="Solution" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="StationNumber" class="control-label"></label>
-                <input asp-for="StationNumber" class="form-control" />
+                <input asp-for="StationNumber" class="form-control" readonly />
                 <span asp-validation-for="StationNumber" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="DateOfSubmission" class="control-label"></label>
-                <input asp-for="DateOfSubmission" class="form-control" />
+                <input asp-for="DateOfSubmission" class="form-control" readonly />
                 <span asp-validation-for="DateOfSubmission" class="text-danger"></span>
             </div>
             <div class="form-group form-check">
                 <label class="form-check-label">
-                    <input class="form-check-input" asp-for="IsCardAnomaly" /> @Html.DisplayNameFor(model => model.IsCardAnomaly)
+                    <input class="form-check-input" asp-for="IsCardAnomaly" readonly /> @Html.DisplayNameFor(model => model.IsCardAnomaly)
                 </label>
             </div>
             <div class="form-group">
-                <label asp-for="SubmissionOwnerId" class="control-label"></label>
-                <select asp-for="SubmissionOwnerId" class="form-control" asp-items="ViewBag.SubmissionOwnerId"></select>
-                <span asp-validation-for="SubmissionOwnerId" class="text-danger"></span>
+                <label asp-for="ImplementationDesc" class="control-label"></label>
+                <input asp-for="ImplementationDesc" class="form-control" />
+                <span asp-validation-for="ImplementationDesc" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="SignedToId" class="control-label"></label>
-                <select asp-for="SignedToId" class="form-control" asp-items="ViewBag.SignedToId"></select>
-                <span asp-validation-for="SignedToId" class="text-danger"></span>
+                <label asp-for="PropositionDate" class="control-label"></label>
+                <input asp-for="PropositionDate" class="form-control" />
+                <span asp-validation-for="PropositionDate" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="CostId" class="control-label"></label>
-                <select asp-for="CostId" class="form-control" asp-items="ViewBag.CostId"></select>
-                <span asp-validation-for="CostId" class="text-danger"></span>
+                <label asp-for="ImplementationDate" class="control-label"></label>
+                <input asp-for="ImplementationDate" class="form-control" />
+                <span asp-validation-for="ImplementationDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Delete" class="control-label"></label>
+                <input asp-for="Delete" class="form-control" placeholder="ex.: 'True' or 'False' " />
+                <span asp-validation-for="Delete" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {
