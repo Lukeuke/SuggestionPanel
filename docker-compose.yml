@@ -1,8 +1,30 @@
 version: '3.4'
 
+networks:
+  suggestionapp:
+
 services:
+  suggestiondb:
+    container_name: mssql-db
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    ports:
+      - 8002:1433
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=123456789
+    volumes:
+      - "./data-mssql:/var/opt/mssql/data"
+
   suggestionpanel.ui:
     image: ${DOCKER_REGISTRY-}suggestionpanelui
     build:
       context: .
       dockerfile: SuggestionPanel.UI/Dockerfile
+    ports:
+      - 8001:80
+    depends_on:
+      - suggestiondb
+    environment:
+      - DB_HOST=suggestiondb
+      - DB_NAME=Data-S
+      - DB_SA_PASSWORD=123456789

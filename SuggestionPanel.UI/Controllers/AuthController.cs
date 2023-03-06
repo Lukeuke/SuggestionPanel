@@ -74,7 +74,7 @@ namespace SuggestionPanel.UI.Controllers
         [Route("Admin")]
         public ActionResult Admin()
         {
-            ViewData["Roles"] = new SelectList(new List<string> { ERoles.Admin.ToString(), ERoles.Committee.ToString() });
+            ViewData["Roles"] = new SelectList(new List<string> { ERoles.Committee.ToString(), ERoles.Admin.ToString() });
 
             return View();
         }

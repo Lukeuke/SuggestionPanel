@@ -109,7 +109,8 @@ namespace SuggestionPanel.UI.Controllers
                     Solution = suggestion.Solution,
                     IsCardAnomaly = suggestion.IsCardAnomaly,
                     SubmissionOwnerId = 1,
-                    Delete = false
+                    Delete = false,
+                    ToCommittee = false
                 });
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index", "Home");
@@ -119,7 +120,7 @@ namespace SuggestionPanel.UI.Controllers
         }
 
         // GET: Suggestion/Edit/5
-        [Authorize]
+        [Authorize()]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Suggestions == null)
@@ -171,6 +172,7 @@ namespace SuggestionPanel.UI.Controllers
                     suggestionModel.PropositionDate = suggestion.PropositionDate;
                     suggestionModel.ImplementationDate = suggestion.ImplementationDate;
                     suggestionModel.Delete = suggestion.Delete;
+                    suggestionModel.ToCommittee = true;
 
                     _context.Update(suggestionModel);
                     await _context.SaveChangesAsync();

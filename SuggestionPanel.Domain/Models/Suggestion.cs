@@ -11,13 +11,16 @@ namespace SuggestionPanel.Domain.Models
 
         [MaxLength(100)]
         public required string StationNumber { get; set; }
+        [Display(Name = "Submission Date")]
         public required DateTime DateOfSubmission { get; set; }
+        [Display(Name = "Anomaly Card?")]
         public required bool IsCardAnomaly { get; set; }
-
+        [Display(Name = "Implementation Desc.")]
         public string? ImplementationDesc { get; set; }
         public DateTime? PropositionDate { get; set; }
         public DateTime? ImplementationDate { get; set; }
         public bool? Delete { get; set; }
+        public bool? ToCommittee { get; set; } = false;
 
         public int? Points { get; set; }
         public decimal? Money { get; set; }
@@ -29,13 +32,5 @@ namespace SuggestionPanel.Domain.Models
         public int SignedToId { get; set; }
         public virtual Cost Cost { get; set; }
         public int CostId { get; set; }
-
-        public bool ToCommittee()
-        {
-            if (Delete == true && ImplementationDate != null)
-                return true;
-            
-            return false;
-        }
     }
 }

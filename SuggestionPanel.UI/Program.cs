@@ -3,8 +3,21 @@ using SuggestionPanel.Application;
 using SuggestionPanel.Application.Services.Authentication;
 using SuggestionPanel.Application.Data;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using System.Net.Security;
+using System.Net;
 
 var builder = WebApplication.CreateBuilder(args);
+
+/*
+ * 
+var dbHost = Environment.GetEnvironmentVariable("DB_HOST");
+var dbName = Environment.GetEnvironmentVariable("DB_NAME");
+var dbPassword = Environment.GetEnvironmentVariable("DB_SA_PASSWORD");
+var connectionStr = $"Data Source={dbHost};Initial Catalog={dbName};User ID=SA;Password={dbPassword};TrustServerCertificate=true";
+
+ServicePointManager.ServerCertificateValidationCallback +=
+    new RemoteCertificateValidationCallback((sender, certificate, chain, policyErrors) => { return true; });
+ */
 
 builder.Services.AddDbContext<ApplicationContext>(o =>
 {

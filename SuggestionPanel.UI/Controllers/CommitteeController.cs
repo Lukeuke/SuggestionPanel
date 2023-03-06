@@ -21,10 +21,7 @@ namespace SuggestionPanel.UI.Controllers
             var suggestions = _context.Suggestions.Include(x => x.SubmissionOwner).Include(x => x.Cost).Include(x => x.SignedTo);
 
             suggestions.Where(x => x.Delete == true || x.ImplementationDate != null);
-
-            var d = suggestions.Where(x => x.ReviewDate == null).ToList();
-
-            return View(d);
+            return View(suggestions.Where(x => x.ToCommittee == true && x.ReviewDate == null).ToList());
         }
 
         public async Task<IActionResult> Edit(int? id)

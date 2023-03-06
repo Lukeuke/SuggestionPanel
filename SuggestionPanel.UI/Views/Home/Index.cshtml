@@ -5,7 +5,7 @@
 <div class="text-center d-flex w-100 justify-content-center align-items-center">
     <div class="w-25 h-auto">
         <a href="Suggestion/Create">
-            <button class="btn-primary">Stwórz sugestie</button>
+            <button class="btn-primary">Create Suggestion</button>
         </a>
     </div>
     @if(Context.User.Identity.IsAuthenticated)
@@ -21,6 +21,7 @@
     else
     {
         <div class="w-25 h-auto">
+            <label>ValueStream Responsibility</label> <br />
             <a href="Auth/Login">
                 <button class="btn-primary">Login</button>
             </a>

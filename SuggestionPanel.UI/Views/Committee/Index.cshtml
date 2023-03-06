@@ -34,9 +34,6 @@
                 @Html.DisplayNameFor(model => model.SignedTo)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Cost)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.Delete)
             </th>
             <th>
@@ -44,9 +41,6 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.ImplementationDesc)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PropositionDate)
             </th>
             <th></th>
         </tr>
@@ -80,9 +74,6 @@
                     @Html.DisplayFor(modelItem => item.SignedTo.Name)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Cost.Value)
-                </td>
-                <td>
                     @Html.DisplayFor(modelItem => item.Delete!.Value)
                 </td>
                 <td>
@@ -93,12 +84,6 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.ImplementationDesc)
-                </td>
-                <td>
-                    @if(item.PropositionDate != null)
-                    {
-                        @Html.DisplayFor(modelItem => item.PropositionDate!.Value)
-                    }
                 </td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.Id">Review</a>
