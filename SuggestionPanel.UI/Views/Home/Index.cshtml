@@ -1,30 +1,40 @@
-﻿@{
+﻿@using SuggestionPanel.Domain.Enums;
+@{
     ViewData["Title"] = "Home Page";
 }
+<div class="">
+    <div class="text-center d-flex w-100 justify-content-center align-items-center">
+        <div class="w-25 h-auto">
+            <a href="Suggestion/Create">
+                <button class="btn-primary">Create Suggestion</button>
+            </a>
+        </div>
+        @if(Context.User.Identity.IsAuthenticated)
+        {
+            <div class="w-25 h-auto">
+                <a href="Auth/Logout">
+                    <form asp-action="Logout" asp-controller="Auth">
+                        <input type="submit" value="Logout" class="btn-primary">
+                    </form>
+                </a>
+            </div>
+        }
+        else
+        {
+            <div class="w-25 h-auto">
+                <label>ValueStream Responsibility</label> <br />
+                <a href="Auth/Login">
+                    <button class="btn-primary">Login</button>
+                </a>
+            </div>
+        }
 
-<div class="text-center d-flex w-100 justify-content-center align-items-center">
-    <div class="w-25 h-auto">
-        <a href="Suggestion/Create">
-            <button class="btn-primary">Create Suggestion</button>
-        </a>
     </div>
-    @if(Context.User.Identity.IsAuthenticated)
-    {
-        <div class="w-25 h-auto">
-            <a href="Auth/Logout">
-                <form asp-action="Logout" asp-controller="Auth">
-                    <input type="submit" value="Logout" class="btn-primary">
-                </form>
-            </a>
-        </div>
-    }
-    else
-    {
-        <div class="w-25 h-auto">
-            <label>ValueStream Responsibility</label> <br />
-            <a href="Auth/Login">
-                <button class="btn-primary">Login</button>
-            </a>
-        </div>
-    }
+
+    <div class="m-5">
+        @if (Context.User.IsInRole(ERoles.ValueStreamResponsibility.ToString()))
+        {
+            <p class="text-primary fw-bold text-center"> <a asp-action="Index" asp-controller="Suggestion" asp-route-number="@Context.User.Identity.Name"> You have @ViewBag.SuggestionsCount unreviewed suggestions. </a> </p>
+        }
+    </div>
 </div>

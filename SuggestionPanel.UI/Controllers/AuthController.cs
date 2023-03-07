@@ -6,7 +6,6 @@ using SuggestionPanel.Domain.Enums;
 using System.Security.Claims;
 using SuggestionPanel.Domain.DTOs;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.Extensions.Configuration;
 
 namespace SuggestionPanel.UI.Controllers
 {
@@ -43,13 +42,14 @@ namespace SuggestionPanel.UI.Controllers
 
             if (!success)
             {
+                ViewData["Error"] = "Wrong password.";
                 return View();
             }
 
             var claims = new List<Claim>
             {
                 new (ClaimTypes.Name, request.Number),
-                new (ClaimTypes.Role, ERoles.User.ToString()),
+                new (ClaimTypes.Role, ERoles.ValueStreamResponsibility.ToString()),
             };
 
             var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
@@ -82,19 +82,19 @@ namespace SuggestionPanel.UI.Controllers
         [Route("Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-
         public async Task<ActionResult> Admin(AdminRequest request)
         {
             var validPass = _config.GetValue<string>(request.Role + "Pass");
 
             if (validPass != request.Password)
             {
+                ViewData["Roles"] = new SelectList(new List<string> { ERoles.Committee.ToString(), ERoles.Admin.ToString() });
+                ViewData["Error"] = "Wrong password.";
                 return View();
             }
 
             var claims = new List<Claim>
             {
-                new (ClaimTypes.Name, request.Role),
                 new (ClaimTypes.Role, request.Role),
             };
 

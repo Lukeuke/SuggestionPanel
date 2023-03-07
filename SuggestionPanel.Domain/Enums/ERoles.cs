@@ -4,6 +4,6 @@
     {
         Admin,
         Committee,
-        User
+        ValueStreamResponsibility
     }
 }

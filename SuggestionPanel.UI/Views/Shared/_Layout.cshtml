@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using SuggestionPanel.Application.Data;
+@inject ApplicationContext ctx
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -25,14 +27,15 @@
                         @if (Context.User.IsInRole("Committee"))
                         {
                         <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Committee" asp-action="Index">Suggestions to Review</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Committee" asp-action="Index">Suggestions to Review</a>
+                            <span class="badge badge-primary badge-pill">14</span>
                         </li>
                         <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Suggestion" asp-action="Accepted">Accepted Suggestions</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Suggestion" asp-action="Accepted">Accepted Suggestions</a>
                         </li>
                         }
 
-                        @if (Context.User.IsInRole("User") || Context.User.IsInRole("Admin"))
+                        @if (Context.User.IsInRole("ValueStreamResponsibility") || Context.User.IsInRole("Admin"))
                         {
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Suggestion" asp-action="Index" asp-route-number="@Context.User.Identity.Name">Suggestions to Review</a>
@@ -54,13 +57,13 @@
                             </li>
                         }
                     </ul>
+                    @if(Context.User.Identity.IsAuthenticated)
+                    {
+                        <div>
+                            <a>Hello @Context.User.Identity.Name</a>
+                        </div>
+                    }
                 </div>
-                @if(Context.User.Identity.IsAuthenticated)
-                {
-                    <div>
-                        <a>Hello @Context.User.Identity.Name</a>
-                    </div>
-                }
             </div>
         </nav>
     </header>
