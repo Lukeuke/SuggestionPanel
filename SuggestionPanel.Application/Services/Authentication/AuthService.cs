@@ -11,6 +11,12 @@ namespace SuggestionPanel.Application.Services.Authentication
             _context = context;
         }
 
+        /// <summary>
+        /// This method is used to Login
+        /// </summary>
+        /// <param name="number">ValueStream Responsibility number (Worker number)</param>
+        /// <param name="password">ValueStream Responsibility Password</param>
+        /// <returns>Bool if Login was successful</returns>
         public bool Login(string number, string password)
         {
             var user = _context.ValueStreamResponsibilities.FirstOrDefault(x => x.Number == number);
