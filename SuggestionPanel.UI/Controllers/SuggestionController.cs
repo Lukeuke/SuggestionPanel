@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SuggestionPanel.Application.Data;
+using SuggestionPanel.Application.Services.SMTP;
 using SuggestionPanel.Domain.DTOs;
 using SuggestionPanel.Domain.Models;
 
@@ -11,10 +12,12 @@ namespace SuggestionPanel.UI.Controllers
     public class SuggestionController : Controller
     {
         private readonly ApplicationContext _context;
+        private readonly ISMTPService _smtpService;
 
-        public SuggestionController(ApplicationContext context)
+        public SuggestionController(ApplicationContext context, ISMTPService smtpService)
         {
             _context = context;
+            _smtpService = smtpService;
         }
 
         // GET: Suggestion
@@ -120,6 +123,18 @@ namespace SuggestionPanel.UI.Controllers
                     Delete = false,
                     ToCommittee = false
                 });
+
+                _smtpService.SendEmail(new MailRequestDto
+                {
+                    ToAddress = signedTo.Email,
+                    Subject = "You have got new suggestion",
+                    Body = @$"
+                                <p align-center>Problem: {suggestion.Problem} </p>
+                                <hr />
+                                <p align-center>Solution: {suggestion.Solution} </p>
+                             "
+                });
+
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index", "Home");
             }

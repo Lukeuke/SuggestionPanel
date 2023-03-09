@@ -1,10 +1,9 @@
 using Microsoft.EntityFrameworkCore;
-using SuggestionPanel.Application;
 using SuggestionPanel.Application.Services.Authentication;
 using SuggestionPanel.Application.Data;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using System.Net.Security;
-using System.Net;
+using SuggestionPanel.Application.Services.SMTP;
+using SuggestionPanel.Domain.Models.SMTP;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,6 +26,9 @@ builder.Services.AddDbContext<ApplicationContext>(o =>
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<ISMTPService, SMTPService>();
+
+builder.Services.AddSingleton(builder.Configuration.GetSection("smtp").Get<Settings>());
 
 builder.Services.AddAuthentication(o =>
 {
