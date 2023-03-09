@@ -73,6 +73,12 @@ namespace SuggestionPanel.Application.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<bool?>("Accepted")
+                        .HasColumnType("bit");
+
+                    b.Property<bool?>("Archive")
+                        .HasColumnType("bit");
+
                     b.Property<int>("CostId")
                         .HasColumnType("int");
 

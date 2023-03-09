@@ -22,7 +22,7 @@ namespace SuggestionPanel.UI.Controllers
             var suggestions = _context.Suggestions.Include(x => x.SubmissionOwner).Include(x => x.Cost).Include(x => x.SignedTo);
 
             suggestions.Where(x => x.Delete == true || x.ImplementationDate != null);
-            return View(suggestions.Where(x => x.ToCommittee == true && x.ReviewDate == null).ToList());
+            return View(suggestions.Where(x => x.ToCommittee == true).ToList());
         }
 
         public async Task<IActionResult> Edit(int? id)
@@ -58,7 +58,7 @@ namespace SuggestionPanel.UI.Controllers
 
             ViewData["Points"] = new SelectList(new List<int>
             {
-                2, 5, 10, 15, 20, 25, 30, 35, 40, 50
+                0, 2, 5, 10, 15, 20, 25, 30, 35, 40, 50
             });
 
             return View(suggestionReuqest);
@@ -78,11 +78,32 @@ namespace SuggestionPanel.UI.Controllers
             {
                 try
                 {
+
                     var suggestionModel = await _context.Suggestions.FirstOrDefaultAsync(x => x.Id == suggestion.Id);
+
+                    if (suggestion.Points == 0)
+                    {
+                        suggestion.Delete = false;
+                        suggestionModel!.ToCommittee = false;
+                    }
+
+                    if (suggestion.Points == 0 && suggestion.Delete == true)
+                    {
+                        suggestionModel!.Archive = true;
+                    }
+                    else if (suggestion.Points == 0 && suggestion.Delete == false)
+                    {
+                        suggestionModel!.Accepted = false;
+                    }
+                    else
+                    {
+                        suggestionModel!.Accepted = true;
+                    }
 
                     suggestionModel!.Money = suggestion.Money;
                     suggestionModel.Points = suggestion.Points;
                     suggestionModel.ReviewDate = DateTime.Now;
+                    suggestionModel.Delete = suggestion.Delete;
 
                     _context.Update(suggestionModel);
                     await _context.SaveChangesAsync();

@@ -49,11 +49,19 @@ namespace SuggestionPanel.UI.Controllers
             return View(await applicationContext.ToListAsync());
         }
 
-        [Route("Accepted")]
+        [Route("Suggestions/Accepted")]
         [Authorize(Roles = "Admin,Committee")]
         public async Task<IActionResult> Accepted()
         {
-            var suggestions = _context.Suggestions.Include(s => s.Cost).Include(s => s.SignedTo).Include(s => s.SubmissionOwner).Where(x => x.ReviewDate != null);
+            var suggestions = _context.Suggestions.Include(s => s.Cost).Include(s => s.SignedTo).Include(s => s.SubmissionOwner).Where(x => x.Accepted == true);
+            return View(await suggestions.ToListAsync());
+        }
+
+        [Route("Suggestions/Archive")]
+        [Authorize(Roles = "Admin,Committee")]
+        public async Task<IActionResult> Archive()
+        {
+            var suggestions = _context.Suggestions.Include(s => s.Cost).Include(s => s.SignedTo).Include(s => s.SubmissionOwner).Where(x => x.Archive == true);
             return View(await suggestions.ToListAsync());
         }
 
@@ -143,7 +151,8 @@ namespace SuggestionPanel.UI.Controllers
                 IsCardAnomaly = suggestion.IsCardAnomaly,
                 DateOfSubmission = suggestion.DateOfSubmission,
                 Problem = suggestion.Problem,
-                Solution = suggestion.Solution
+                Solution = suggestion.Solution,
+                ImplementationDesc = suggestion.ImplementationDesc
             };
 
             return View(suggestionReuqest);

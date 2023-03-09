@@ -26,6 +26,9 @@ namespace SuggestionPanel.Domain.Models
         public decimal? Money { get; set; }
         public DateTime? ReviewDate { get; set; }
 
+        public bool? Accepted { get; set; }
+        public bool? Archive { get; set; }
+
         public virtual HumanResources SubmissionOwner { get; set; }
         public int SubmissionOwnerId { get; set; }
         public virtual ValueStreamResponsibility SignedTo { get; set; }
