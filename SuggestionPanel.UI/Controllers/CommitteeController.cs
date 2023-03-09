@@ -22,7 +22,7 @@ namespace SuggestionPanel.UI.Controllers
             var suggestions = _context.Suggestions.Include(x => x.SubmissionOwner).Include(x => x.Cost).Include(x => x.SignedTo);
 
             suggestions.Where(x => x.Delete == true || x.ImplementationDate != null);
-            return View(suggestions.Where(x => x.ToCommittee == true).ToList());
+            return View(suggestions.Where(x => x.ToCommittee == true && x.Accepted == false || x.Archive == false).ToList());
         }
 
         public async Task<IActionResult> Edit(int? id)
@@ -104,6 +104,7 @@ namespace SuggestionPanel.UI.Controllers
                     suggestionModel.Points = suggestion.Points;
                     suggestionModel.ReviewDate = DateTime.Now;
                     suggestionModel.Delete = suggestion.Delete;
+                    suggestionModel.ImplementationDesc = suggestion.ImplementationDesc;
 
                     _context.Update(suggestionModel);
                     await _context.SaveChangesAsync();

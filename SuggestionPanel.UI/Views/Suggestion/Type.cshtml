@@ -1,0 +1,76 @@
+﻿@model IEnumerable<SuggestionPanel.Domain.Models.Suggestion>
+
+@{
+    ViewData["Title"] = $"{ViewBag.Type} Suggestions";
+}
+
+<h1>@ViewBag.Type Suggestions</h1>
+
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Problem)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Solution)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StationNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateOfSubmission)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsCardAnomaly)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SubmissionOwner.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SubmissionOwner.Surname)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SignedTo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cost)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Problem)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Solution)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StationNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateOfSubmission)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsCardAnomaly)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SubmissionOwner.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SubmissionOwner.Surname)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SignedTo.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cost.Value)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
